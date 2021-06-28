@@ -1,4 +1,1 @@
-#<
-.PURPOSE
-TEST
->#
+#<.PURPOSETEST>#
