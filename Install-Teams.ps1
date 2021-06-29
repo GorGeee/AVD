@@ -38,8 +38,8 @@ function TimeNow(){
 Log "$(TimeNow) - # [BEGIN]: $AppName #"
 
 Log "$(TimeNow) - Set Teams required regKey"
-New-Item -Path HKLM:\SOFTWARE\Microsoft -Name "Teams" 
-New-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Teams -Name "IsWVDEnvironment" -Type "Dword" -Value "1"
+New-Item -Path HKLM:\SOFTWARE\Microsoft -Name "Teams" -Force | Out-Null
+New-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Teams -Name "IsWVDEnvironment" -Type "Dword" -Value "1" -Force | Out-Null
 Log "$(TimeNow) - Finished required regKey"
 
 # Download WebRTC
@@ -63,3 +63,4 @@ Start-Process C:\Windows\System32\msiexec.exe -ArgumentList "/i $WorkingDir\$App
 Log "$(TimeNow) - Installed $AppName"
 
 Log "$(TimeNow) - # [END]: $AppName #"
+Log ""

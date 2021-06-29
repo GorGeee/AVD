@@ -69,3 +69,4 @@ Start-Process -FilePath "$WorkingDir\$AppExecutable" -ArgumentList "/S" -Wait
 Log "$(TimeNow) - Install complete"
 
 Log "$(TimeNow) - # [END]: $AppName #"
+Log ""

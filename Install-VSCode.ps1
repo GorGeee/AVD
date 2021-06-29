@@ -43,7 +43,8 @@ Log "$(TimeNow) - Download complete"
 
 # Install
 Log "$(TimeNow) - Installing $AppName"
-Start-Process -FilePath "$WorkingDir\$AppName.exe" -ArgumentList "/VERYSILENT" -Passthru
+Start-Process -FilePath "$WorkingDir\$AppName.exe" -ArgumentList "/VERYSILENT" -Passthru | Out-Null
 Log "$(TimeNow) - Installed $AppName"
 
 Log "$(TimeNow) - # [END]: $AppName #"
+Log ""

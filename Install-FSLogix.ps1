@@ -53,3 +53,4 @@ Start-Process -FilePath "$WorkingDir\FSLogix\x64\Release\FSLogixAppsRuleEditorSe
 Log "$(TimeNow) - Install of $AppName complete"
 
 Log "$(TimeNow) - # [END]: $AppName #"
+Log ""

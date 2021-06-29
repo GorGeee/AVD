@@ -1,1 +1,21 @@
 git push -u origin main
+
+$GitHubRepo = 'https://github.com/GorGeee/AVD'
+$GitHubContent = 'https://raw.githubusercontent.com/GorGeee/AVD/main'
+
+$BasePage = Invoke-WebRequest -Uri $GitHubRepo -UseBasicParsing
+$ChildPath = $BasePage.Links | Where-Object { $_.outerHTML -like '*ps1*' } | Select-Object -ExpandProperty href
+
+$URLs = @()
+ForEach ($line in $ChildPath) {
+    $Script = Split-Path -Path $line -Leaf
+    $Link = "$GitHubContent/$Script"
+    $URLs += $Link
+}
+
+
+ForEach ($URL in $URLs){
+    $Script = Invoke-WebRequest $URL -UseBasicParsing
+    Write-Host "Running $URL"
+    Invoke-Expression $($Script.Content)
+}
