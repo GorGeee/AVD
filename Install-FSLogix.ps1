@@ -3,13 +3,16 @@
     Silent Installation of FSLogix
 
 .CREATEDBY
-    George Zajakovski
+    George Zajakovski - https://www.linkedin.com/in/gzajakovski/
 #>
 
+# Start Safe Vars
 $ScriptName = "Install-FSLogix.ps1"
-
 $WorkingDir = "C:\temp\cubesys\"
 $LogFile = "$WorkingDir\Install.log"
+
+$FSLogixURL = "https://aka.ms/fslogix_download"
+# End Safe Vars
 
 If (!(Test-Path $WorkingDir)) { 
     New-Item $WorkingDir -ItemType Directory 
@@ -31,7 +34,6 @@ Log "$(TimeNow) - Start $ScriptName Script"
 
 # Download FSLogix
 Log "$(TimeNow) - Downloading FSLogix"
-$FSLogixURL = "https://aka.ms/fslogix_download"
 Invoke-WebRequest -Uri $FSLogixURL -OutFile "$WorkingDir\fslogix.zip"
 Log "$(TimeNow) - Download complete"
 

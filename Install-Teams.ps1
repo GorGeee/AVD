@@ -3,13 +3,17 @@
     Silent clean installation of Optimized Microsoft Teams
 
 .CREATEDBY
-    George Zajakovski
+    George Zajakovski - https://www.linkedin.com/in/gzajakovski/
 #>
 
+# Start Safe Vars
 $ScriptName = "Install-Teams.ps1"
-
 $WorkingDir = "C:\temp\cubesys\"
 $LogFile = "$WorkingDir\Install.log"
+
+$WebRTCurl = 'https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RE4AQBt'
+$TeamsURL = "https://teams.microsoft.com/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true"
+# End Safe Vars
 
 If (!(Test-Path $WorkingDir)) { 
     New-Item $WorkingDir -ItemType Directory 
@@ -36,7 +40,6 @@ Log "$(TimeNow) - Finished required regKey"
 
 # Download WebRTC
 Log "$(TimeNow) - Downloading WebRTC"
-$WebRTCurl = 'https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RE4AQBt'
 Invoke-WebRequest -Uri $WebRTCurl -OutFile "$WorkingDir\WebRTC.msi"
 Log "$(TimeNow) - Download complete"
 
@@ -47,7 +50,6 @@ Log "$(TimeNow) - Install of WebRTC Complete"
 
 # Download Microsoft Teams
 Log "$(TimeNow) - Downloading Teams"
-$TeamsURL = "https://teams.microsoft.com/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true"
 Invoke-WebRequest -Uri $TeamsURL -OutFile "$WorkingDir\Teams_windows_x64.msi"
 Log "$(TimeNow) - Download complete"
 
