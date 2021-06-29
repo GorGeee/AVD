@@ -6,13 +6,17 @@
     George Zajakovski - https://www.linkedin.com/in/gzajakovski/
 #>
 
-# Start Safe Vars
-$ScriptName = "Install-FSLogix.ps1"
+# User Vars
 $WorkingDir = "C:\temp\cubesys\"
 $LogFile = "$WorkingDir\Install.log"
+$AppName = "FSLogix"
 
+# Software URLs
 $FSLogixURL = "https://aka.ms/fslogix_download"
-# End Safe Vars
+
+#################### 
+### SCRIPT BEGIN ###
+#################### 
 
 If (!(Test-Path $WorkingDir)) { 
     New-Item $WorkingDir -ItemType Directory 
@@ -30,20 +34,22 @@ function TimeNow(){
     return $AusEast
 }
 
-Log "$(TimeNow) - Start $ScriptName Script"
+Log "$(TimeNow) - # [BEGIN]: $AppName #"
 
 # Download FSLogix
-Log "$(TimeNow) - Downloading FSLogix"
-Invoke-WebRequest -Uri $FSLogixURL -OutFile "$WorkingDir\fslogix.zip"
-Log "$(TimeNow) - Download complete"
+Log "$(TimeNow) - Downloading $AppName"
+Invoke-WebRequest -Uri $FSLogixURL -OutFile "$WorkingDir\$AppName.zip"
+Log "$(TimeNow) - Download $AppName"
 
 # Extract FSLogix package
-Log "$(TimeNow) - Extracting FSLogix"
-Expand-Archive "$WorkingDir\fslogix.zip" -DestinationPath $WorkingDir\FSLogix
+Log "$(TimeNow) - Extracting $AppName"
+Expand-Archive "$WorkingDir\$AppName.zip" -DestinationPath $WorkingDir\$AppName
 
 # Install Teams Machine-Wide
-Log "$(TimeNow) - Installing FSLogix Core"
+Log "$(TimeNow) - Installing $AppName Core"
 Start-Process -FilePath "$WorkingDir\FSLogix\x64\Release\FSLogixAppsSetup.exe" -ArgumentList "/install /quiet" -Wait -Passthru
-Log "$(TimeNow) - Installing FSLogix App Mask"
+Log "$(TimeNow) - Installing $AppName App Mask"
 Start-Process -FilePath "$WorkingDir\FSLogix\x64\Release\FSLogixAppsRuleEditorSetup.exe" -ArgumentList "/install /quiet" -Wait -Passthru
-Log "$(TimeNow) - Install of FSLogix complete"
+Log "$(TimeNow) - Install of $AppName complete"
+
+Log "$(TimeNow) - # [END]: $AppName #"

@@ -6,14 +6,18 @@
     George Zajakovski - https://www.linkedin.com/in/gzajakovski/
 #>
 
-# Start Safe Vars
-$ScriptName = "Install-Teams.ps1"
+# User Vars
 $WorkingDir = "C:\temp\cubesys\"
 $LogFile = "$WorkingDir\Install.log"
+$AppName = "Teams"
 
+# Software URLs
 $WebRTCurl = 'https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RE4AQBt'
 $TeamsURL = "https://teams.microsoft.com/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true"
-# End Safe Vars
+
+#################### 
+### SCRIPT BEGIN ###
+#################### 
 
 If (!(Test-Path $WorkingDir)) { 
     New-Item $WorkingDir -ItemType Directory 
@@ -31,7 +35,7 @@ function TimeNow(){
     return $AusEast
 }
 
-Log "$(TimeNow) - Start $ScriptName Script"
+Log "$(TimeNow) - # [BEGIN]: $AppName #"
 
 Log "$(TimeNow) - Set Teams required regKey"
 New-Item -Path HKLM:\SOFTWARE\Microsoft -Name "Teams" 
@@ -46,14 +50,16 @@ Log "$(TimeNow) - Download complete"
 # Install WebRTC
 Log "$(TimeNow) - Installing WebRTC"
 Start-Process C:\Windows\System32\msiexec.exe -ArgumentList "/i $WorkingDir\WebRTC.msi /qn" -Wait
-Log "$(TimeNow) - Install of WebRTC Complete"
+Log "$(TimeNow) - Installed WebRTC"
 
 # Download Microsoft Teams
-Log "$(TimeNow) - Downloading Teams"
-Invoke-WebRequest -Uri $TeamsURL -OutFile "$WorkingDir\Teams_windows_x64.msi"
+Log "$(TimeNow) - Downloading $AppName"
+Invoke-WebRequest -Uri $TeamsURL -OutFile "$WorkingDir\$AppName.msi"
 Log "$(TimeNow) - Download complete"
 
 # Install Teams Machine-Wide
-Log "$(TimeNow) - Installing Teams"
-Start-Process C:\Windows\System32\msiexec.exe -ArgumentList "/i $WorkingDir\Teams_windows_x64.msi /l*v $WorkingDir\teams_log.log ALLUSER=1 /qn" -Wait
-Log "$(TimeNow) - Install of Teams complete"
+Log "$(TimeNow) - Installing $AppName"
+Start-Process C:\Windows\System32\msiexec.exe -ArgumentList "/i $WorkingDir\$AppName.msi /l*v $WorkingDir\$AppName.log ALLUSER=1 /qn" -Wait
+Log "$(TimeNow) - Installed $AppName"
+
+Log "$(TimeNow) - # [END]: $AppName #"
