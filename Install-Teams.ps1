@@ -19,14 +19,20 @@ $TeamsURL = "https://teams.microsoft.com/downloads/desktopurl?env=production&pla
 ### SCRIPT BEGIN ###
 #################### 
 
+# Create the working directory if it doesnt exist
 If (!(Test-Path $WorkingDir)) { 
-    New-Item $WorkingDir -ItemType Directory 
-    New-Item $LogFile
+    New-Item $WorkingDir -ItemType Directory | Out-Null
+}
+
+# Create the logfile if it doesnt exist
+If (!(Test-Path $WorkingDir\$LogFile)) { 
+    New-Item $LogFile | Out-Null
 }
 
 Function log {
 	Param([string]$string)
  	$string | Out-File -FilePath $LogFile -append
+    Write-Host $string
 }
 
 function TimeNow(){
