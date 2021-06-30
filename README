@@ -1,11 +1,21 @@
-git push -u origin main
+Welcome to my GitHub
 
+Here you will find powershell scripts you can use to automate your life.
+Im still learning GitHub so if things break... my bad :/ 
+
+Here is a handy script you can run on a clean Windows images to install everything in my repo. 
+
+# git push -u origin main
+
+# User vars
 $GitHubRepo = 'https://github.com/GorGeee/AVD'
 $GitHubContent = 'https://raw.githubusercontent.com/GorGeee/AVD/main'
 
+# Find all .ps1 scripts
 $BasePage = Invoke-WebRequest -Uri $GitHubRepo -UseBasicParsing
 $ChildPath = $BasePage.Links | Where-Object { $_.outerHTML -like '*ps1*' } | Select-Object -ExpandProperty href
 
+# Grab the raw URL to the scripts
 $URLs = @()
 ForEach ($line in $ChildPath) {
     $Script = Split-Path -Path $line -Leaf
@@ -13,7 +23,7 @@ ForEach ($line in $ChildPath) {
     $URLs += $Link
 }
 
-
+# Run each powershell script
 ForEach ($URL in $URLs){
     $Script = Invoke-WebRequest $URL -UseBasicParsing
     Write-Host "Running $URL"
