@@ -1,47 +1,67 @@
 {
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "imageTemplateName": {
+       "imageTemplateName": {
         "type": "string"
         },
         "api-version": {
           "type": "string"
         },
-        "svclocation": {
+        "imgTemplateLocation": {
+            "type": "string"
+        },
+        "imgBuilderId": {
+            "type": "string"
+        },
+        "publisher": {
+            "type": "string"
+        },
+        "offer": {
+            "type": "string"
+        },
+        "sku": { 
+            "type": "string"
+        },
+        "sharedImageGalleryId": {
+            "type": "string"
+        },
+        "imgDefName": {
+           "type": "string"
+        },
+        "distRunOutPutName": {
+            "type": "string"
+        },
+        "replicationRegion": {
             "type": "string"
         }
     },
-    
     "variables": {
     },
-
-
     "resources": [
       {
         "name": "[parameters('imageTemplateName')]",
         "type": "Microsoft.VirtualMachineImages/imageTemplates",
         "apiVersion": "[parameters('api-version')]",
-        "location": "[parameters('svclocation')]",
+        "location": "[parameters('imgTemplateLocation')]",
         "dependsOn": [],
         "tags": {
             "imagebuilderTemplate": "AzureImageBuilderSIG",
             "userIdentity": "enabled"
                 },
-            "identity": {
-                "type": "UserAssigned",
-                        "userAssignedIdentities": {
-                        "<imgBuilderId>": {}
-                            
-                    }
-                    },
+        "identity": {
+            "type": "UserAssigned",
+            "userAssignedIdentities": {
+                "[parameters('imgBuilderId')]": {}    
+                }
+        },
         
         "properties": {
             "buildTimeoutInMinutes" : 120,
 
             "vmProfile": 
                     {
-                    "vmSize": "Standard_D2_v2",
+                    "vmSize": "Standard_D2s_v4",
                     "osDiskSizeGB": 127,
                     "vnetConfig": {
                         "subnetId": "/subscriptions/d1ac22e9-076b-45dc-aef3-7601228966cb/resourceGroups/WVD-RG/providers/Microsoft.Network/virtualNetworks/WVD-RG-vnet/subnets/default"
@@ -50,14 +70,12 @@
         
             "source": {
                 "type": "PlatformImage",
-                    "publisher": "MicrosoftWindowsDesktop",
-                    "offer": "windows-10",
-                    "sku": "20h1-ent",
+                    "publisher": "[parameters('publisher')]",
+                    "offer": "[parameters('offer')]",
+                    "sku": "[parameters('sku')]",
                     "version": "latest"
             },
             "customize": [
-
-        
                     {
                         "type": "PowerShell",
                         "name": "installFSLogix",
@@ -73,10 +91,18 @@
                         "scriptUri": "https://raw.githubusercontent.com/GorGeee/AVD/main/Install-Teams.ps1"
                     },
                     {
+                        "type": "PowerShell",
+                        "name": "Install Notepad",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/GorGeee/AVD/main/Install-NotepadPlusPlus.ps1"
+                    },
+                    {
                         "type": "WindowsRestart",
                         "restartCheckCommand": "write-host 'Restarting post Teams Install'",
                         "restartTimeout": "5m"
-                    },                      
+                    },
+                        
                     {
                         "type": "WindowsUpdate",
                         "searchCriteria": "IsInstalled=0",
@@ -92,21 +118,19 @@
             [
                 {   
                     "type": "SharedImage",
-                    "galleryImageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>",
-                    "runOutputName": "<runOutputName>",
+                    "galleryImageId": "[concat(parameters('sharedImageGalleryId'),'/images/',parameters('imgDefName'))]",
+                    "runOutputName": "[parameters('distRunOutPutName')]",
                     "artifactTags": {
                         "source": "wvd10",
-                        "baseosimg": "windows10"
+                        "baseosimg": "windows10ms"
                     },
                     "replicationRegions": [
-                      "<region1>"
+                      "[parameters('replicationRegion')]"
 
                     ]
                 }
             ]
             }
         }
-
-    
     ]
 }    

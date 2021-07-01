@@ -1,0 +1,50 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "imageTemplateName": {
+          "type": "string",
+          "value": "win10ms"
+        },
+        "api-version": {
+          "type": "string",
+          "value": "2020-02-14"
+        },
+        "imgTemplateLocation": {
+            "type": "string",
+            "value": "australiaeast"
+        },
+        "imgBuilderId": {
+            "type": "string",
+            "value": "/subscriptions/d1ac22e9-076b-45dc-aef3-7601228966cb/resourceGroups/wvdImageDemoRg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/NEWaibIdentity1624595169"
+        },
+        "publisher": {
+            "type": "string",
+            "value": "microsoftwindowsdesktop"
+        },
+        "offer": {
+            "type": "string",
+            "value": "office-365"
+        },
+        "sku": { 
+            "type": "string",
+            "value": "19h2-evd-o365pp"
+         },
+         "sharedImageGalleryId": {
+             "type": "string",
+             "value": "/subscriptions/d1ac22e9-076b-45dc-aef3-7601228966cb/resourceGroups/wvdImageDemoRg/providers/Microsoft.Compute/galleries/myaibsig01"
+         },
+        "imgDefName": {
+             "type": "string",
+             "value": "win10ms"
+        },
+         "distRunOutPutName": {
+             "type": "string",
+             "value": "imgDistRunOutput"
+         },
+        "replicationRegion": {
+             "type": "string",
+             "value": "australiaeast"
+         }
+    }
+}
