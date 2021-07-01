@@ -65,7 +65,7 @@ Log "$(TimeNow) - Download complete"
 
 # Install Teams Machine-Wide
 Log "$(TimeNow) - Installing $AppName"
-Start-Process C:\Windows\System32\msiexec.exe -ArgumentList "/i $WorkingDir\$AppName.msi /l*v $WorkingDir\$AppName.log ALLUSER=1 /qn" -Wait
+Start-Process C:\Windows\System32\msiexec.exe -ArgumentList "/i $WorkingDir\$AppName.msi /l*v $WorkingDir\$AppName.log ALLUSER=1 ALLUSERS=1 /qn" -Wait
 Log "$(TimeNow) - Installed $AppName"
 
 Log "$(TimeNow) - # [END]: $AppName #"

@@ -42,7 +42,10 @@
             "vmProfile": 
                     {
                     "vmSize": "Standard_D2_v2",
-                    "osDiskSizeGB": 127
+                    "osDiskSizeGB": 127,
+                    "vnetConfig": {
+                        "subnetId": "/subscriptions/d1ac22e9-076b-45dc-aef3-7601228966cb/resourceGroups/WVD-RG/providers/Microsoft.Network/virtualNetworks/WVD-RG-vnet/subnets/default"
+                        }
                     },
         
             "source": {
@@ -73,8 +76,7 @@
                         "type": "WindowsRestart",
                         "restartCheckCommand": "write-host 'Restarting post Teams Install'",
                         "restartTimeout": "5m"
-                    },
-                        
+                    },                      
                     {
                         "type": "WindowsUpdate",
                         "searchCriteria": "IsInstalled=0",
