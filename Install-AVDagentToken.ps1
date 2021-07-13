@@ -46,10 +46,10 @@ function TimeNow(){
 
 # Download all source file async and wait for completion
 Log "Downloading WVD Agent"
-Invoke-WebRequest -Uri $WebRTCurl -OutFile "$WorkingDir\Microsoft.RDInfra.RDAgent.Installer-x64.msi"
+Invoke-WebRequest -Uri $WVDAgentInstaller -OutFile "$WorkingDir\Microsoft.RDInfra.RDAgent.Installer-x64.msi"
 
 Log "Downloading WVD Bootloader"
-Invoke-WebRequest -Uri $WebRTCurl -OutFile "$WorkingDir\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi"
+Invoke-WebRequest -Uri $WVDBootLoaderInstaller -OutFile "$WorkingDir\Microsoft.RDInfra.RDAgentBootLoader.Installer-x64.msi"
 
 # Install the WVD Agent
 Log "Install the WVD Agent"
