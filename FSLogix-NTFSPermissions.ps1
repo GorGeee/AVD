@@ -41,6 +41,13 @@ function TimeNow(){
 
 Log "$(TimeNow) - # [BEGIN]: $AppName #"
 
+
+# Find all FSLogix profiles. 
+# EG. $oldStorageAcc = '\\wvdprofiles.file.core.windows.net\fslogixprofiles\desktop'
+
+$oldStorageAcc = '<UNC>'
+$newStorageAcc = '<UNC>'
+
 # Do not change the filter. Its used to ignore any already mounted profiles.
 $Profiles = Get-ChildItem "$oldStorageAcc" -Recurse -filter "Profile*.vhd*" | Select -ExpandProperty FullName
 
